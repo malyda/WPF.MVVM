@@ -13,7 +13,6 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
         <Button Content="{Binding NumberOfClicks}"
                 Command="{Binding ClickCommand}"
                 ContentStringFormat="Number of clicks: {0}" />

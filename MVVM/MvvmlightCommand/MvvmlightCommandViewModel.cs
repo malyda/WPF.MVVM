@@ -5,10 +5,16 @@ using GalaSoft.MvvmLight.Command;
 
 namespace WPF.MVVM.MvvmlightCommand
 {
+    /// <summary>
+    /// INotifyPropertyChanged je nutné pro funkčnost eventu PropertyChanged
+    /// </summary>
     internal class MvvmlightCommandViewModel : INotifyPropertyChanged
     {
         private int _numberOfClicks;
 
+        /// <summary>
+        ///     Nastavení Commands
+        /// </summary>
         public MvvmlightCommandViewModel()
         {
             ClickCommand = new RelayCommand(ClickMethod);
@@ -16,32 +22,48 @@ namespace WPF.MVVM.MvvmlightCommand
             CommandWithParameters = new RelayCommand<Person>(CommandWithParametersMethod);
         }
 
+        /// <summary>
+        ///     Veřejné přístupové rozhraní pro proměnnou, která je iterována pomocí Buttonu
+        /// </summary>
         public int NumberOfClicks
         {
             get => _numberOfClicks;
             set
             {
                 _numberOfClicks = value;
+                // Po změně hodnoty proměnné je nutné oznámit View tuto změnu, aby se mohlo View obnovit (refresh)
                 OnPropertyChanged("NumberOfClicks");
             }
         }
 
-        
+
         public ObservableCollection<Person> Persons { get; set; }
-        
-        // MVVMLight nugget
+
+        /// <summary>
+        ///     Mvvmlight nugget balíček poskytuje zjednodušené rozhraní pro práci s Commands a mnoho dalšího
+        /// </summary>
+
+        // Command, který je bindovaný do Buttonu
         public RelayCommand ClickCommand { get; }
 
+        // Command s parametrem typu string
         public RelayCommand<Person> CommandWithParameters { get; }
         public Person PersonToBind { get; set; } = new Person("Jméno a přijmení", 1);
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        ///     Metoda volaná Commandem, který je Bindovaný na Button
+        /// </summary>
         private void ClickMethod()
         {
             NumberOfClicks++;
         }
 
+        /// <summary>
+        ///     Zobrazí v MessageBox obsah objektu osoby
+        /// </summary>
+        /// <param name="person">Osoba získaná z Command parametru</param>
         private void CommandWithParametersMethod(Person person)
         {
             MessageBox.Show($"Person name: {person.Name} id: {person.Id}");

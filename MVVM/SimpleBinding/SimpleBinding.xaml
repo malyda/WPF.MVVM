@@ -10,6 +10,8 @@
 
     <StackPanel Margin="10" HorizontalAlignment="Center">
         <TextBlock FontSize="18" Text="Simple Binding" Padding="0,0,0,10" />
+
+        <!-- Jednotlivé View komponenty jsou napojeny na veřejná přístupová rozhraní dat např. pro Text !-->
         <TextBlock Text="{Binding BoundText}" />
         <TextBlock Text="{Binding BoundNumber, StringFormat='Some number: {0}'}" />
     </StackPanel>

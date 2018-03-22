@@ -5,15 +5,21 @@ using GalaSoft.MvvmLight.Command;
 
 namespace WPF.MVVM.AllInOne
 {
-    class AllInOnePageViewModel : INotifyPropertyChanged
+    internal class AllInOnePageViewModel : INotifyPropertyChanged
     {
         private int _numberOfClicks;
+
+        public AllInOnePageViewModel()
+        {
+            DisplayMessageCommand = new RelayCommand(ClickMethod);
+            var persons = new List<Person>();
+            for (var i = 0; i < 100; i++) persons.Add(new Person("name" + i, i));
+            Persons = new ObservableCollection<Person>(persons);
+        }
+
         public int NumberOfClicks
         {
-            get
-            {
-                return _numberOfClicks;
-            }
+            get => _numberOfClicks;
             set
             {
                 _numberOfClicks = value;
@@ -26,33 +32,19 @@ namespace WPF.MVVM.AllInOne
         // MVVMLight nugget
         public ObservableCollection<Person> Persons { get; set; }
 
-        public RelayCommand DisplayMessageCommand { get; private set; }
+        public RelayCommand DisplayMessageCommand { get; }
 
-        public AllInOnePageViewModel()
-        {
-            DisplayMessageCommand = new RelayCommand(ClickMethod,false);
-            List<Person> persons = new List<Person>();
-            for(int i = 0; i < 100; i++)
-            {
-                persons.Add(new Person("name"+i,i));
-            }
-            Persons = new ObservableCollection<Person>( persons);
-            
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private void ClickMethod()
         {
             NumberOfClicks++;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(name));
-            }
+            var handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(name));
         }
     }
 }
