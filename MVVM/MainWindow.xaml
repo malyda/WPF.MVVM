@@ -24,7 +24,7 @@
             <Button Content="Mvvmlight Command" Command="{Binding NavigateCommand}"
                     CommandParameter="{Binding MvvmlightCommandUri}" />
             <Button Content="All in one" Command="{Binding NavigateCommand}"
-                    CommandParameter="{Binding AllInOnePageURI}" />
+                    CommandParameter="{Binding AllInOnePageUri}" />
         </StackPanel>
         <Frame x:Name="NavigationFrame" Grid.Column="1" />
     </Grid>
